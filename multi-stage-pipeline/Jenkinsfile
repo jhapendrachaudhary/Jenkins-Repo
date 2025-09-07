@@ -1,0 +1,34 @@
+pipeline{
+    agent none
+    stages{
+        stage('front-end'){
+            agent{
+                docker {image 'node:22-alpine'}
+            }
+            steps{
+                sh 'node --version'
+            }
+        }
+        stage('back-end'){
+            agent{
+                docker {image 'maven:3.9-ibmjava'}
+            }
+            steps{
+                sh 'mvn -v'
+            }
+        }
+        stage('database'){
+            agent{
+                docker {image 'mysql:8.0'}
+            }
+            steps{
+                sh 'mysql --version'
+            }
+        }
+        stage(message){
+            steps{
+            echo "Pipeline executed successfully"
+            }
+        }
+    }
+}
